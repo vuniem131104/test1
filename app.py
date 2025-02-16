@@ -25,24 +25,18 @@ device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 
 force_download = False # False
 
-model_name = 'tinybert-sentiment-analysis/'
-local_path = 'ml-models/'+model_name
-if not os.path.isdir(local_path) or force_download:
-    s3.download_dir(local_path, model_name)
-sentiment_model = pipeline('text-classification', model=local_path, device=device)
 
-
-model_name = 'tinybert-disaster-tweet/'
-local_path = 'ml-models/'+model_name
+model_name = 'disaster-classification'
+local_path = 'ml_models/'+model_name
 if not os.path.isdir(local_path) or force_download:
-    s3.download_dir(local_path, model_name)
+    s3.download_folder_from_s3(bucket_name='vugiau', s3_folder='ml_models/disaster_classification', local_dir=local_path)
 tweeter_model = pipeline('text-classification', model=local_path, device=device)
 
 
-model_name = 'vit-human-pose-classification/'
-local_path = 'ml-models/'+model_name
+model_name = 'vit'
+local_path = 'ml_models/'+model_name
 if not os.path.isdir(local_path) or force_download:
-    s3.download_dir(local_path, model_name)
+    s3.download_folder_from_s3(bucket_name='vugiau', s3_folder='ml_models/vit', local_dir=local_path)
 pose_model = pipeline('image-classification', model=local_path, device=device, image_processor=image_processor)
 
 ######## Download ENDS  #############
